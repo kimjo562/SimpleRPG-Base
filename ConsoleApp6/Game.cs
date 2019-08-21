@@ -11,8 +11,8 @@ namespace ConsoleApp6
         string playerName = "";
         int playerHealth = 200;
         int playerMaxHealth = 200;
-        int playerDamage = 25;
-        int playerHealing = 60;
+        int playerDamage = 30;
+        int playerHealing = 75;
 
         public void Start()                                                                                       // In the Scope
         {
@@ -24,7 +24,7 @@ namespace ConsoleApp6
             while (alive && monstersRemaining > 0)
             {
                 Console.WriteLine("There are " + monstersRemaining + " monsters remaining.\n");
-                alive = Encounter(20, 80);                                                                        // First Digit is Monster Damage, Second Digit is Monster Health
+                alive = Encounter(35, 100);                                                                        // First Digit is Monster Damage, Second Digit is Monster Health
                 monstersRemaining--;
             }
 
@@ -37,6 +37,14 @@ namespace ConsoleApp6
             Console.WriteLine("What is your name? ");
             playerName = Console.ReadLine();                                                                      // Similar to cin
             Console.WriteLine("Welcome " + playerName + "!\n");
+            if (playerName == "Anonymous")
+            {
+                Console.WriteLine("Aren't you the sly one.");
+                playerDamage = 404;
+                playerHealth = 404;
+                playerMaxHealth = 404;
+                playerHealing = 404;
+            }
 
         }
 
@@ -132,6 +140,7 @@ namespace ConsoleApp6
             Console.WriteLine(playerName + " has " + playerHealth + " health remaining.");
             if (playerHealth <= 0)
             {
+                Console.WriteLine("You died attempting to Heal.\n");
                 Console.WriteLine(playerName + " was defeated.");
                 return false;
 
@@ -146,6 +155,8 @@ namespace ConsoleApp6
             {
                 playerHealth = playerMaxHealth;
             }
+
+            
 
             if (monsterHealth <= 0)
             {
