@@ -9,8 +9,10 @@ namespace ConsoleApp6
     class Game                                                                                                    // Out of the Scope
     {
         string playerName = "";
-        int playerHealth = 250;
-        int playerDamage = 20;
+        int playerHealth = 200;
+        int playerMaxHealth = 200;
+        int playerDamage = 25;
+        int playerHealing = 60;
 
         public void Start()                                                                                       // In the Scope
         {
@@ -22,7 +24,7 @@ namespace ConsoleApp6
             while (alive && monstersRemaining > 0)
             {
                 Console.WriteLine("There are " + monstersRemaining + " monsters remaining.\n");
-                alive = Encounter(20, 60);                                                                        // First Digit is Monster Damage, Second Digit is Monster Health
+                alive = Encounter(20, 80);                                                                        // First Digit is Monster Damage, Second Digit is Monster Health
                 monstersRemaining--;
             }
 
@@ -49,11 +51,12 @@ namespace ConsoleApp6
             {
                 Console.WriteLine("What will you do?");
                 Console.WriteLine("Use numbers to declare action or words.");
-                Console.WriteLine("1.) Fight      2.) Flee\n");
+                Console.WriteLine("1.) Fight      2.) Heal      3.) Flee\n");
                 action = Console.ReadLine();
 
                 if (action == "1" || action == "Fight" || action == "fight")
                 {
+                    // Attack
                     survived = Fight(ref monsterHealth, ref monsterDamage);
                     if (!survived)
                     {
@@ -61,10 +64,25 @@ namespace ConsoleApp6
                     }
                 }
 
-                else if (action == "2" || action == "Flee" || action == "flee")
+                else if (action == "2" || action == "Heal" || action == "heal")
+                {
+                    // Recovery
+                    survived = Heal(ref monsterHealth,ref monsterDamage);
+                    if (!survived)
+                    {
+                        return false;
+                    }
+                   
+                }
+
+                else if (action == "3" || action == "Flee" || action == "flee")
                 {
                     // Escape!
-                    Console.WriteLine("You sucessfully escaped.\n");
+                    Flee();
+                    if (!survived)
+                    {
+                        return false;
+                    }
                     return true;
                 }
 
@@ -93,7 +111,6 @@ namespace ConsoleApp6
             {
                 //Monster Defeat
                 Console.WriteLine("The monster was defeated.");
-                //   Console.WriteLine("Another monster has appeared!\n");
                 return true;              
             }
             return true;
@@ -101,20 +118,44 @@ namespace ConsoleApp6
 
         bool Flee()
         {
-
+           Console.WriteLine("You sucessfully escaped.\n");
 
 
             return true;
         }
 
-        bool Heal()
+        bool Heal(ref int monsterHealth,ref int monsterDamage)
         {
+            // Monster Attack
+            Console.WriteLine("The Monster attacks! " + playerName + " takes " + monsterDamage + " damage!");
+            playerHealth -= monsterDamage;
+            Console.WriteLine(playerName + " has " + playerHealth + " health remaining.");
+            if (playerHealth <= 0)
+            {
+                Console.WriteLine(playerName + " was defeated.");
+                return false;
 
+            }
 
+            // Player Heals
+            Console.WriteLine("You drink...a red empty bottle. (really -_-)");
+            Console.WriteLine("You heal for " + playerHealing + " health points.\n");
+            playerHealth += playerHealing;
 
+            if (playerHealth > playerMaxHealth)
+            {
+                playerHealth = playerMaxHealth;
+            }
 
+            if (monsterHealth <= 0)
+            {
+                //Monster Defeat
+                Console.WriteLine("The monster was defeated.");
+                return true;
+
+            }
             return true;
         }
-
     }
 }
+ 
