@@ -10,6 +10,8 @@ namespace ConsoleApp6
     {
         string playerName = "";
         int playerHealth = 100;
+        int monsterHealth = 20;
+        int playerDamage = 10;
 
         public void Start()                                                                        // In the Scope
         {
@@ -20,8 +22,10 @@ namespace ConsoleApp6
             // Fight until you lose.
             while (alive && monstersRemaining > 0)
             {
-             alive = Encounter(40);
                 Console.WriteLine("There are " + monstersRemaining + " monsters remaining.");
+
+                alive = Encounter(20, 15);
+
                 monstersRemaining--;
 
             }
@@ -38,40 +42,60 @@ namespace ConsoleApp6
 
              }
 
-             bool Encounter(int monsterDamage)                                                      // <---- These are Functions
+             bool Encounter(int monsterDamage, int monsterHealth)                                                      // <---- These are Functions
              {
                         // Monster Section
                     Console.WriteLine("A Monster has appeared!");
                     string action = "";
+                 while (monsterHealth > 0 || playerHealth > 0)
+                 { 
                     Console.WriteLine("What will you do?");
                     Console.WriteLine("Use numbers to declare action or words.");
                     Console.WriteLine("1.) Fight      2.) Flee\n");
                     action = Console.ReadLine();
-
-                   if (action == "1" || action == "Fight" || action == "fight")                     // || = or
-                   {
+              
+                if (action == "1" || action == "Fight" || action == "fight")                     // || = or
+                {
+                   
                         // Monster Attack
                         Console.WriteLine("The Monster attacks! " + playerName + " takes " + monsterDamage + " damage!");
                         playerHealth -= monsterDamage;
-                        Console.WriteLine(playerName + " has " + playerHealth + " remaining.");
-                        if(playerHealth <= 0)
+                        Console.WriteLine(playerName + " has " + playerHealth + " health remaining.");
+                        if (playerHealth <= 0)
                         {
-                         Console.WriteLine(playerName + " was defeated.");
-                         return false;
-                         
+                            Console.WriteLine(playerName + " was defeated.");
+                            return false;
+
                         }
 
                         // Player Attack
-                        Console.WriteLine("You defeated the monster.\n");
-                   }
+                        Console.WriteLine("The monster takes " + playerDamage + " damage.");
+                        monsterHealth -= playerDamage;
+                        Console.WriteLine("The monster has " + monsterHealth + " health remaining.\n");
+                        if (monsterHealth < 0)
+                        {
+                            //Monster Defeat
+                            Console.WriteLine("The monster was defeated.");
+                            Console.WriteLine("Another monster has appeared!\n");
 
-                   else if (action == "2" || action == "Flee" || action == "flee")
-                   {
-                      // Escape!
-                        Console.WriteLine("You sucessfully escaped.\n");
 
-                   }
-                   return true;
+
+
+                        }
+                    
+                }
+
+                else if (action == "2" || action == "Flee" || action == "flee")
+                {
+                    // Escape!
+                    Console.WriteLine("You sucessfully escaped.\n");
+                    return true;
+                }
+
+
+
+                 }
+                return true;
              }
              
 
