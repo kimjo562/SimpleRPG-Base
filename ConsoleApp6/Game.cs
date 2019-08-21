@@ -11,35 +11,37 @@ namespace ConsoleApp6
         string playerName = "";
         int playerHealth = 100;
 
-        public void Start()                                             // In the Scope
+        public void Start()                                                                        // In the Scope
         {
-            // Player Section
-            Console.WriteLine("What is your name? ");
-            playerName = Console.ReadLine();                            // Similar to cin
-            Console.WriteLine("Welcome " + playerName + "!\n");
-            Encounter();
+            Welcome();                                                                             // Declaring the Function into use.
 
+            bool alive = true;
 
+            alive = Encounter(160);
+            if(alive)
+            {
+             Console.WriteLine("Second Fight!\n");
+             alive = Encounter(20);
+            }
 
-
-
-
-            Console.ReadKey();
+            Console.ReadKey();                                                                      // system("pause") + cin
         }
 
              void Welcome()                                                                         // <---- These are Functions
-             {   
-
+             {
+                    // Player Section
+                    Console.WriteLine("What is your name? ");
+                    playerName = Console.ReadLine();                                                // Similar to cin
+                    Console.WriteLine("Welcome " + playerName + "!\n");
 
              }
 
-             void Encounter()                                                                       // <---- These are Functions
+             bool Encounter(int monsterDamage)                                                      // <---- These are Functions
              {
                         // Monster Section
                     int monsterHealth = 100;
-                    int monsterDamage = 10;
-                    Console.WriteLine("A Monster has appeared!");
 
+                    Console.WriteLine("A Monster has appeared!");
                     string action = "";
                     Console.WriteLine("What will you do?");
                     Console.WriteLine("Use numbers to declare action or words.");
@@ -51,24 +53,27 @@ namespace ConsoleApp6
                         // Monster Attack
                         Console.WriteLine("The Monster attacks! " + playerName + " takes " + monsterDamage + " damage!");
                         playerHealth -= monsterDamage;
-                        Console.WriteLine("" + playerName + " has " + playerHealth + " remaining.");
-
+                        Console.WriteLine(playerName + " has " + playerHealth + " remaining.");
+                        if(playerHealth <= 0)
+                        {
+                         Console.WriteLine(playerName + " was defeated.");
+                         return false;
+                         
+                        }
 
                         // Player Attack
-                        Console.WriteLine("You attack the monster.");
-
-
+                        Console.WriteLine("You defeated the monster.\n");
                    }
 
                    else if (action == "2" || action == "Flee" || action == "flee")
                    {
                       // Escape!
-                        Console.WriteLine("You sucessfully escaped.");
+                        Console.WriteLine("You sucessfully escaped.\n");
 
                    }
-
+                   return true;
              }
-
+             
 
     }
 }
