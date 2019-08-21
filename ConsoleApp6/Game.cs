@@ -14,14 +14,16 @@ namespace ConsoleApp6
         public void Start()                                                                        // In the Scope
         {
             Welcome();                                                                             // Declaring the Function into use.
-
+            int monstersRemaining = 5;
             bool alive = true;
 
-            alive = Encounter(160);
-            if(alive)
+            // Fight until you lose.
+            while (alive && monstersRemaining > 0)
             {
-             Console.WriteLine("Second Fight!\n");
-             alive = Encounter(20);
+             alive = Encounter(40);
+                Console.WriteLine("There are " + monstersRemaining + " monsters remaining.");
+                monstersRemaining--;
+
             }
 
             Console.ReadKey();                                                                      // system("pause") + cin
@@ -39,8 +41,6 @@ namespace ConsoleApp6
              bool Encounter(int monsterDamage)                                                      // <---- These are Functions
              {
                         // Monster Section
-                    int monsterHealth = 100;
-
                     Console.WriteLine("A Monster has appeared!");
                     string action = "";
                     Console.WriteLine("What will you do?");
